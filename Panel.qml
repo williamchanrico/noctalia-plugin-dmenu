@@ -132,18 +132,18 @@ FocusScope {
     }
 
     function handleKeyPress(event) {
-        if (event.key === Qt.Key_Down) {
+        if (Keybinds.checkKey(event, "down", Settings)) {
             selectedIndex = Math.min(selectedIndex + 1, filteredItems.length - 1);
             scrollToSelected();
             event.accepted = true;
-        } else if (event.key === Qt.Key_Up) {
+        } else if (Keybinds.checkKey(event, "up", Settings)) {
             selectedIndex = Math.max(selectedIndex - 1, 0);
             scrollToSelected();
             event.accepted = true;
-        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+        } else if (Keybinds.checkKey(event, "enter", Settings)) {
             activateItem(selectedIndex);
             event.accepted = true;
-        } else if (event.key === Qt.Key_Escape) {
+        } else if (Keybinds.checkKey(event, "escape", Settings)) {
             if (main) main.endSession();
             event.accepted = true;
         } else if (event.key === Qt.Key_Tab) {
