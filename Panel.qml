@@ -124,11 +124,21 @@ FocusScope {
     }
 
     function scrollToSelected() {
-        var itemY = selectedIndex * 50;
-        if (itemY < flickable.contentY)
-            flickable.contentY = itemY;
-        else if (itemY + 48 > flickable.contentY + flickable.height)
-            flickable.contentY = itemY + 48 - flickable.height;
+        var itemHeight = 48;
+        var rowStep = itemHeight + resultsColumn.spacing;
+        var itemTop = selectedIndex * rowStep;
+        var itemBottom = itemTop + itemHeight;
+
+        var viewTop = flickable.contentY;
+        var viewBottom = viewTop + flickable.height;
+        var scrollMargin = rowStep * 2;
+        var maxY = Math.max(0, flickable.contentHeight - flickable.height);
+
+        if (itemTop < viewTop + scrollMargin) {
+            flickable.contentY = Math.max(0, itemTop - scrollMargin);
+        } else if (itemBottom > viewBottom - scrollMargin) {
+            flickable.contentY = Math.min(maxY, itemBottom + scrollMargin - flickable.height);
+        }
     }
 
     function handleKeyPress(event) {
